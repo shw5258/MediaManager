@@ -14,7 +14,7 @@ public class ImageUtils {
     public static Bitmap getImageBitmap(String aImagePath, int aOrientation) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 1;
+            options.inSampleSize = 2;//기기의 성능에 따라서 이값을 변화시키지 않으면, 사진이 로드되지 않을 수도 있다.
             Bitmap displayImg = BitmapFactory.decodeFile(aImagePath, options);
             return getRotateBitmap(displayImg, aOrientation);
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class ImageUtils {
         Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(
                 contentResolver,
                 mediaData.mediaid,
-                MediaStore.Images.Thumbnails.MINI_KIND,
+                MediaStore.Images.Thumbnails.MINI_KIND,//기기의 성능에 따라서 썸네일의 화질을 변경해주지 않으면, 썸네일이 보이지 않고 앱아이콘만 보이는 경우가 있다.
                 null
         );
         return getCenterBitmap(bitmap, mediaData.orientation);

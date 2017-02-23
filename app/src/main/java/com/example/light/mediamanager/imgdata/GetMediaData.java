@@ -19,14 +19,15 @@ public class GetMediaData {
         String[] imagecolumns = {
                 MediaStore.Images.Media._ID,
                 MediaStore.Images.Media.DATA,
+                MediaStore.Images.Media.DATE_TAKEN,
                 MediaStore.Images.Media.ORIENTATION
         };
         Cursor imageCursor = aContext.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 imagecolumns,
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME + " = 'Camera'",
                 null,
-                null,
-                null
+                MediaStore.Images.Media.DATE_TAKEN +" desc"
         );
         if (imageCursor != null && imageCursor.moveToFirst()) {
             int imageid = 0;

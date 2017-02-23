@@ -22,6 +22,7 @@ public class ImageLoader {
 
     public ImageLoader(Context aContext) {
         mImageViewMap = new HashMap<>();
+//        mExecutorService = Executors.newFixedThreadPool(10);
         mExecutorService = Executors.newFixedThreadPool(10);
     }
 
