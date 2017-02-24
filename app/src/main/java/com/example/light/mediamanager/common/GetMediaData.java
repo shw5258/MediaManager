@@ -1,4 +1,4 @@
-package com.example.light.mediamanager.imgdata;
+package com.example.light.mediamanager.common;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -49,6 +49,43 @@ public class GetMediaData {
                 info.orientation = orientation;
                 aMediaData.add(info);
             } while (imageCursor.moveToNext());
+        }
+    }
+
+    public static void getVideoArrayData(Context aContext, ArrayList<MediaData> aMediaData) {
+
+        Cursor videoCursor;
+        String[] videocolumns = {
+                MediaStore.Video.Media._ID,
+                MediaStore.Video.Media.DATA
+        };
+
+        videoCursor = aContext.getContentResolver().query(
+                MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                videocolumns,
+                null,
+                null,
+                null
+        );
+
+        if (videoCursor != null && videoCursor.moveToFirst()) {
+            int videoId = 0;
+            String videoPath;
+
+            int videoIdColumnIndex = videoCursor.getColumnIndex(MediaStore.Video.Media._ID);
+            int videoIdPathColumnIndex = videoCursor.getColumnIndex(MediaStore.Video.Media.DATA);
+
+            do {
+                videoId = videoCursor.getInt(videoIdColumnIndex);
+                videoPath = videoCursor.getString(videoIdPathColumnIndex);
+
+                MediaData info = new MediaData();
+                info.type = MainActivity.TYPE_VIDEO;
+                info.mediaid = videoId;
+                info.mediapath = videoPath;
+                aMediaData.add(info);
+
+            } while (videoCursor.moveToNext());
         }
     }
 }

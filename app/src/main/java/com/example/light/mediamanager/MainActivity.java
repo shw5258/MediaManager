@@ -12,6 +12,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    public static final int REQUEST_EXTERNAL = 100;
     public static String TYPE = "TYPE";
     public static final int TYPE_IMAGE = 0;
     public static final int TYPE_VIDEO = 1;
@@ -22,12 +23,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         Button imgBtn = (Button) findViewById(R.id.imagebtn);
+        Button videoBtn = (Button) findViewById(R.id.videobtn);
+
         imgBtn.setOnClickListener(this);
+        videoBtn.setOnClickListener(this);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        100
+                        REQUEST_EXTERNAL
                 );
                 imgBtn.setEnabled(false);
             }
@@ -37,20 +42,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
             case R.id.imagebtn:
                 openImageViewer();
                 break;
+
+            case R.id.videobtn:
+                openVideoPlayer();
+                break;
+
             default:
                 break;
         }
+    }
+
+    private void openVideoPlayer() {
+        Intent i = new Intent(this, ImageGridActivity.class);
+        i.putExtra(TYPE, TYPE_VIDEO);
+        startActivity(i);
+    }
+
+    private void openImageViewer() {
+        Intent i = new Intent(this, ImageGridActivity.class);
+        i.putExtra(TYPE, TYPE_IMAGE);
+        startActivity(i);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case 100:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            case REQUEST_EXTERNAL:
+                if (grantResults.length == 0){
+                    break;
+                } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Button imgBtn = (Button) findViewById(R.id.imagebtn);
                     imgBtn.setEnabled(true);
                 }
@@ -58,10 +83,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 break;
         }
-    }
-
-    private void openImageViewer() {
-        Intent i = new Intent(this, ImageGridActivity.class);
-        startActivity(i);
     }
 }

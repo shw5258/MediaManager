@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.example.light.mediamanager.imgdata.MediaData;
+import com.example.light.mediamanager.common.MediaData;
 import com.example.light.mediamanager.imghandle.ImageLoader;
 
 import java.util.ArrayList;

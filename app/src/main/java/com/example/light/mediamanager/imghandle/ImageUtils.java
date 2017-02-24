@@ -1,12 +1,17 @@
 package com.example.light.mediamanager.imghandle;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.provider.MediaStore;
 
-import com.example.light.mediamanager.imgdata.MediaData;
+import com.example.light.mediamanager.R;
+import com.example.light.mediamanager.common.MediaData;
 
 
 public class ImageUtils {
@@ -96,6 +101,37 @@ public class ImageUtils {
         }
 
         return thumb;
+    }
+
+    public static Bitmap getVideoThumbnail(MediaData aMediaData) {
+        Context context = aMediaData.imgview.getContext();
+        ContentResolver thumbnailCR = context.getContentResolver();
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 1;
+        Bitmap thumbnailBm = MediaStore.Video.Thumbnails.getThumbnail(
+                thumbnailCR,
+                aMediaData.mediaid,
+                MediaStore.Images.Thumbnails.MINI_KIND,
+                options
+        );
+        Bitmap croppedBm = getCenterBitmap(thumbnailBm, 0);
+        Drawable playImg = context.getResources().getDrawable(
+                R.drawable.play,
+                context.getTheme());
+        Bitmap playBitmap = ((BitmapDrawable) playImg).getBitmap();
+        return overlayBitmap(croppedBm, playBitmap);
+    }
+
+    private static Bitmap overlayBitmap(Bitmap thumb, Bitmap play) {
+        Bitmap Overlaid = Bitmap.createBitmap(thumb.getWidth(), thumb.getHeight(), thumb.getConfig());
+        Canvas canvas = new Canvas(Overlaid);
+        canvas.drawBitmap(thumb, new Matrix(), null);
+        canvas.drawBitmap(play,
+                (thumb.getWidth() - play.getWidth())/2,
+                (thumb.getHeight() - play.getHeight())/2,
+                null);
+        return Overlaid;
     }
 
 }

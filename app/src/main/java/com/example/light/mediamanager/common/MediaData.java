@@ -1,4 +1,4 @@
-package com.example.light.mediamanager.imgdata;
+package com.example.light.mediamanager.common;
 
 import android.widget.ImageView;
 

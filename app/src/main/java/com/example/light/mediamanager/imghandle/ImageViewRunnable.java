@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.example.light.mediamanager.R;
-import com.example.light.mediamanager.imgdata.MediaData;
+import com.example.light.mediamanager.common.MediaData;
 
 import java.util.HashMap;
 

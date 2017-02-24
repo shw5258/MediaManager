@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Image Viewer</string>
+    <string name="app_name">Media Manager</string>
     <string name="launch_image">이미지 보기</string>
+    <string name="video_player">비디오 플레이어 실행</string>
 </resources>

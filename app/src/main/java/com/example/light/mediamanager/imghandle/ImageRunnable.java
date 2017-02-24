@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-import com.example.light.mediamanager.imgdata.MediaData;
+import com.example.light.mediamanager.MainActivity;
+import com.example.light.mediamanager.common.MediaData;
 
 import java.util.HashMap;
 
@@ -26,7 +27,14 @@ public class ImageRunnable implements Runnable{
     @Override
     public void run() {
         if (isImageViewValid(mediaData)) {
-            Bitmap bmp = ImageUtils.getImageThumbnail(mediaData);
+            Bitmap bmp;
+
+            if (mediaData.type == MainActivity.TYPE_IMAGE) {
+                bmp = ImageUtils.getImageThumbnail(mediaData);
+            } else {
+                bmp = ImageUtils.getVideoThumbnail(mediaData);
+            }
+
             Activity a = (Activity) mediaData.imgview.getContext();
             ImageViewRunnable imageViewRunnable = new ImageViewRunnable(
                     bmp,

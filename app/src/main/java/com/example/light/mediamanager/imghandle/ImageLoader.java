@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.example.light.mediamanager.R;
-import com.example.light.mediamanager.imgdata.MediaData;
+import com.example.light.mediamanager.common.MediaData;
 
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
@@ -22,12 +22,12 @@ public class ImageLoader {
 
     public ImageLoader(Context aContext) {
         mImageViewMap = new HashMap<>();
-//        mExecutorService = Executors.newFixedThreadPool(10);
         mExecutorService = Executors.newFixedThreadPool(10);
+//        mExecutorService = Executors.newSingleThreadExecutor();
     }
 
     public void displayImage(MediaData mediaData) {
-        if (null != mImageViewMap && null != mediaData) {
+        if (null != mediaData) {
             mImageViewMap.put(mediaData.imgview, mediaData.mediapath);
             mExecutorService.submit(new ImageRunnable(mediaData, mImageViewMap));
             mediaData.imgview.setImageResource(D_RES_ID);
